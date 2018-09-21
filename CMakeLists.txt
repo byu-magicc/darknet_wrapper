@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 # Define path of darknet folder here.
 find_path(DARKNET_PATH
     NAMES "README.md"
-    HINTS "${CMAKE_CURRENT_SOURCE_DIR}/../darknet/")
+    HINTS "${CMAKE_CURRENT_SOURCE_DIR}/darknet/")
 message("Darknet path dir = ${DARKNET_PATH}")
 add_definitions(-DDARKNET_FILE_PATH="${DARKNET_PATH}")
 
@@ -157,9 +157,9 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 #         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 # export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_NAME}-exports.cmake)
 # export(PACKAGE ${PROJECT_NAME} )
-message(STATUS "current source dir ${CMAKE_CURRENT_SOURCE_DIR}")
+# message(STATUS "current source dir ${CMAKE_CURRENT_SOURCE_DIR}")
 
-set(darknet_core_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
+# set(darknet_core_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
 # message(STATUS "Install lib dir ${INSTALL_LIB_DIR}")
