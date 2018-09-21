@@ -4,7 +4,7 @@
 #include <boost/thread.hpp>
 
 
-namespace yolo_core { namespace common {
+namespace darknet_wrapper { namespace common {
 
 /** \struct DynamicParams
 * \brief Contains all of the parameters that can be changed dynamically during runtime.

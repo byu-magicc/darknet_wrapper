@@ -8,9 +8,9 @@
 
 
 #include <opencv2/opencv.hpp>
-#include <darknet_core/common/dynamic_params.h>
-#include <darknet_core/common/bounding_boxes.h>
-#include <darknet_core/YoloObjectDetector.h>
+#include <darknet_wrapper/common/dynamic_params.h>
+#include <darknet_wrapper/common/bounding_boxes.h>
+#include <darknet_wrapper/YoloObjectDetector.h>
 
 #ifdef TESTS_DIR_PATH
 const std::string kTestsDirPath = TESTS_DIR_PATH;
@@ -49,7 +49,7 @@ weights_filename){
 	yolo.Subscriber(&Detection::ImageCallback,this);
 
 	// Change the parameters
-	yolo_core::common::DynamicParams d_params;
+	darknet_wrapper::common::DynamicParams d_params;
 	d_params.threshold = 0.3f;
 	d_params.draw_detections = true;
 	d_params.frame_stride = true;
@@ -80,7 +80,7 @@ void SendImage(int index) {
 
 // Once an image is processed by YOLO this function will be called to
 // store the data.
-void ImageCallback(cv::Mat& drawimg, yolo_core::common::BoundingBoxes& boxes, int& seq)
+void ImageCallback(const cv::Mat& drawimg, const darknet_wrapper::common::BoundingBoxes& boxes, const int& seq)
 {
 
 	drawn_images_.push_back(drawimg.clone());
@@ -112,12 +112,12 @@ std::string GetBestLabel(int img_index, int box_index)
 
 
 std::vector<std::string> images_ = {dog_file,eagle_file,horses_file,person_file};
-std::vector<yolo_core::common::BoundingBoxes> boxes_;
+std::vector<darknet_wrapper::common::BoundingBoxes> boxes_;
 std::vector<cv::Mat> drawn_images_;
 std::vector<int> seq_;
 int index_ = 0;
 
-yolo_core::YoloObjectDetector yolo;
+darknet_wrapper::YoloObjectDetector yolo;
 
 
 
@@ -234,7 +234,7 @@ TEST_F(DetectionTest, Threading) {
 	
 	// Since threading is used, data can come in any order. Let's put
 	// it back to the original order.
-	std::vector<yolo_core::common::BoundingBoxes> boxes_temp =  d.boxes_;
+	std::vector<darknet_wrapper::common::BoundingBoxes> boxes_temp =  d.boxes_;
 	for (int i=0; i < d.seq_.size(); i++) {
 
 		boxes_temp[d.seq_[i]] = d.boxes_[i];

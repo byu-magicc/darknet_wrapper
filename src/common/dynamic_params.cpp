@@ -1,7 +1,7 @@
-#include "darknet_core/common/dynamic_params.h"
+#include "darknet_wrapper/common/dynamic_params.h"
 
 
-namespace yolo_core { namespace common {
+namespace darknet_wrapper { namespace common {
 
 void TDynamicParams::SetThreshold(float threshold) 
 {

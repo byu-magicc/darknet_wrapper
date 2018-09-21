@@ -1,4 +1,4 @@
-#include "darknet_core/YoloObjectDetector.h"
+#include "darknet_wrapper/YoloObjectDetector.h"
 
 #ifdef DARKNET_FILE_PATH
 const std::string kDarknetFilePath_ = DARKNET_FILE_PATH;
@@ -6,7 +6,7 @@ const std::string kDarknetFilePath_ = DARKNET_FILE_PATH;
 #error Path of darknet repository is not defined in CMakeLists.txt.
 #endif
 
-namespace yolo_core {
+namespace darknet_wrapper {
 
 YoloObjectDetector::YoloObjectDetector(
     std::string labels_filename, 
@@ -694,4 +694,4 @@ float YoloObjectDetector::GetFps() {
     return num_frames_processed_/elapsed_seconds.count();
 }
 
-} /* namespace yolo_core*/
+} /* namespace darknet_wrapper*/

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <darknet_core/common/dynamic_params.h>
-#include <darknet_core/YoloObjectDetector.h>
+#include <darknet_wrapper/common/dynamic_params.h>
+#include <darknet_wrapper/YoloObjectDetector.h>
 
 #ifdef TESTS_DIR_PATH
 const std::string kTestsDirPath = TESTS_DIR_PATH;
@@ -14,7 +14,7 @@ const std::string kTestsDirPath = TESTS_DIR_PATH;
 #error Path of TESTS_DIR_PATH repository is not defined in CMakeLists.txt.
 #endif
 
-class ExposeMembers : public yolo_core::YoloObjectDetector {
+class ExposeMembers : public darknet_wrapper::YoloObjectDetector {
 
 public:
 	ExposeMembers(): YoloObjectDetector(
@@ -34,7 +34,7 @@ public:
     int GetFrameStride() {return d_params_.GetFrameStride();}
 
 
-    void SetDParams(const yolo_core::common::DynamicParams& params)
+    void SetDParams(const darknet_wrapper::common::DynamicParams& params)
     {
     	SetDynamicParams(params);
     }
@@ -69,7 +69,7 @@ TEST (ParamTest, StaticLabelsParameters) {
 // 	EXPECT_EQ(p.GetFrameStride(),1);
 
 // 	// test case when values are not set
-// 	yolo_core::common::DynamicParams d_params;
+// 	darknet_wrapper::common::DynamicParams d_params;
 // 	p.SetDParams(d_params);
 // 	EXPECT_EQ(p.GetThreshold(),0.3f);
 // 	EXPECT_EQ(p.GetDrawDetections(),false);

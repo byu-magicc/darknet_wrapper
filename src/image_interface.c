@@ -6,7 +6,7 @@
  *   Institute: ETH Zurich, Robotic Systems Lab
  */
 
-#include "darknet_core/image_interface.h"
+#include "darknet_wrapper/image_interface.h"
 
 image **load_alphabet_with_file(char *datafile) {
   int i, j;

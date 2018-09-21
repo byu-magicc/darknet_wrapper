@@ -5,7 +5,7 @@
 #include <vector>
 #include <exception>
 
-namespace yolo_core { namespace common {
+namespace darknet_wrapper { namespace common {
 
 /** \class Params
 * \brief Helper class to load and access static parameters 

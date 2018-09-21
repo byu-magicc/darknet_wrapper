@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(darknet_core)
+project(darknet_wrapper)
 
 # Set c++11 cmake flags
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
@@ -142,7 +142,7 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 # set(INSTALL_LIB_DIR     lib                      CACHE PATH "Installation directory for libraries")
 # set(INSTALL_BIN_DIR     bin                      CACHE PATH "Installation directory for executables")
 # set(INSTALL_INCLUDE_DIR include                  CACHE PATH "Installation directory for header files")
-# set(INSTALL_CMAKE_DIR   lib/cmake/darknet_core   CACHE PATH "Installation directory for CMake Config files")
+# set(INSTALL_CMAKE_DIR   lib/cmake/darknet_wrapper   CACHE PATH "Installation directory for CMake Config files")
 
 
 # target_include_directories(${PROJECT_NAME} PUBLIC 
@@ -159,7 +159,7 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 # export(PACKAGE ${PROJECT_NAME} )
 # message(STATUS "current source dir ${CMAKE_CURRENT_SOURCE_DIR}")
 
-# set(darknet_core_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
+# set(darknet_wrapper_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
 # message(STATUS "Install lib dir ${INSTALL_LIB_DIR}")
@@ -181,7 +181,7 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 ##################################
 
 
-option(BUILD_TESTS "Build the Darknet_Core GTests" OFF)
+option(BUILD_TESTS "Build the darknet_wrapper GTests" OFF)
 
 if(BUILD_TESTS)
   add_subdirectory(tests)

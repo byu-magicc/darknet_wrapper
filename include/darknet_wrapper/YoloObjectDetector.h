@@ -18,9 +18,9 @@
 #include <opencv2/opencv.hpp>
 
 // common
-#include "darknet_core/common/params.h"
-#include "darknet_core/common/dynamic_params.h"
-#include "darknet_core/common/bounding_boxes.h"
+#include "darknet_wrapper/common/params.h"
+#include "darknet_wrapper/common/dynamic_params.h"
+#include "darknet_wrapper/common/bounding_boxes.h"
 
 // Darknet.
 #ifdef GPU
@@ -37,7 +37,7 @@ extern "C" {
 #include "utils.h"
 #include "parser.h"
 #include "box.h"
-#include "darknet_core/image_interface.h"
+#include "darknet_wrapper/image_interface.h"
 #include <sys/time.h>
 }
 
@@ -45,7 +45,7 @@ extern "C" void ipl_into_image(IplImage* src, image im);
 extern "C" image ipl_to_image(IplImage* src);
 extern "C" void show_image_cv(image p, const char *name, IplImage *disp);
 
-namespace yolo_core {
+namespace darknet_wrapper {
 
 
 
@@ -138,7 +138,7 @@ public:
   * @see common::DynamicParams 
   */
   template<class T>
-  void Subscriber(void (T::*pt2func)(cv::Mat&, common::BoundingBoxes&, int&), T* object);
+  void Subscriber(void (T::*pt2func)(const cv::Mat&, const common::BoundingBoxes&, const int&), T* object);
 
   /**
   * \detail The dynamic parameters specified by common::DynamicParams
@@ -430,7 +430,7 @@ protected:
 };
 
 template<class T>
-void YoloObjectDetector::Subscriber(void (T::*pt2func)(cv::Mat&, common::BoundingBoxes&, int&), T* object) 
+void YoloObjectDetector::Subscriber(void (T::*pt2func)(const cv::Mat&, const common::BoundingBoxes&, const int&), T* object) 
 {
   std::cout << "subscribed!!" << std::endl;
   using std::placeholders::_1;
@@ -447,4 +447,4 @@ void YoloObjectDetector::Subscriber(void (T::*pt2func)(cv::Mat&, common::Boundin
 
 
 
-} /* namespace yolo_core*/
+} /* namespace darknet_wrapper*/

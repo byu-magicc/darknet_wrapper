@@ -4,13 +4,13 @@
 #include <vector>
 #include <chrono>
 
-namespace yolo_core { namespace common {
+namespace darknet_wrapper { namespace common {
 
 /** \struct Prediction
 * \brief Contains the probability for several possible classifications
 * for each detected object. 
 * \detail Each detected object (BoundingBox) will
-* have multiple predictions associated with it. Currently darknet_core
+* have multiple predictions associated with it. Currently darknet_wrapper
 * returns all classifications for a single objects that is above the 
 * threshold. 
 *
