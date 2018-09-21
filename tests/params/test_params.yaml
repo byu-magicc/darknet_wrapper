@@ -1,0 +1,14 @@
+# 
+# Static parameters
+#
+
+num_threads: 3                 # Max number of threads to use.
+
+
+#
+# Dynamic parameters
+#
+
+threshold: 0.3                 # Threshold parameter for YOLO
+draw_detections: false         # If the found bounding boxes should be drawn.
+frame_stride: 1
