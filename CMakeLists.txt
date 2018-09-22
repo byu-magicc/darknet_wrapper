@@ -182,8 +182,15 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 
 
 option(BUILD_TESTS "Build the darknet_wrapper GTests" OFF)
+# message(STATUS "current source ${CMAKE_CURRENT_SOURCE_DIR}")
+# find_path(WRAPPER_FILE_PATH
+#     HINTS "${CMAKE_CURRENT_SOURCE_DIR}/../darknet_wrapper")
+add_definitions( -DWRAPPER_FILE_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
+# set(WRAPPER_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 if(BUILD_TESTS)
+message(STATUS "HERE")
+
   add_subdirectory(tests)
 endif()
 

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 2.8.12)
 
 ########################################
 # Install googletest in local directory
@@ -21,9 +22,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 # targets to the ALL target so that `make install` will ignore googletest installation targets
 add_subdirectory(${GTEST_DIR}/googletest-src ${GTEST_DIR}/googletest-build EXCLUDE_FROM_ALL)
 
-
-add_definitions(-DTESTS_DIR_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
-message("Tests path dir = ${CMAKE_CURRENT_SOURCE_DIR}")
+# set(test "hello")
+# add_definitions(-DDARKNET_WRAPPER_SOURCE_PATH )
+# set(DARKNET_WRAPPER_SOURCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../")
+# message("Tests path dir = ${test}")
 
 ########################################
 # Define Tests
@@ -41,7 +43,7 @@ add_custom_target(gtests parameters_test)
 ########################################
 # Download yolov3 weights
 ########################################
-set(PATH "${CMAKE_CURRENT_SOURCE_DIR}/yolo_network_config/weights")
+set(PATH "${CMAKE_CURRENT_SOURCE_DIR}/../yolo_network_config/weights")
 set(FILE "${PATH}/yolov3-tiny.weights")
 message(STATUS "Checking and downloading yolov3-tiny.weights if needed ...")
 if (NOT EXISTS "${FILE}")
