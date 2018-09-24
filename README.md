@@ -14,7 +14,11 @@ There are a few things the user needs to be aware of
 ## Setup
 
 The Darknet Wrapper builds as a library, and currently there is not installation method. It is suggested that you add it as a submodule into your current project and add
-it as a subdirectory into your CMakeList.txt. You will also need to include its directories and link the library. An example is shown below.
+its CMakeList.tx as a subdirectory into your CMakeList.txt. You will also need to include its directories and link the library. An example is shown below.
+
+``` bash
+$ git clone --recurse-submodules git@magiccvs.byu.edu:darknet/darknet_wrapper.git
+``` 
 
 ``` cmake
 
