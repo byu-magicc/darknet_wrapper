@@ -69,6 +69,20 @@ YoloObjectDetector::~YoloObjectDetector() {
         free(alphabet_[i]);
     free(alphabet_);
 
+    free_network(net_);
+
+
+    /////////////////////////////////////////////////////
+    //    Memory leak testing
+    /////////////////////////////////////////////////////
+
+    // There are some memory leaks from the net. Below are my attempts to find
+    // them. Ultimately it doesn't matter since the net is used until the end
+    // and when a program is no longer running, all the memory used by it in the
+    // stack and heap are freed. If you brave the venture of finding the leaks, 
+    // you can see below where I have searched for them. Good luck, valiant knight!
+
+
     // free(net_->seen);        //
     // free(net_->t);  
     // free(net_->scales);
@@ -121,7 +135,6 @@ YoloObjectDetector::~YoloObjectDetector() {
 //     if (net_->delta)     free(net_->delta);
 //     if (net_->output)    free(net_->output);
 
-    free_network(net_);
 
 }
 
@@ -282,6 +295,9 @@ void YoloObjectDetector::InitFrames(const cv::Mat& img) {
 
     frames_init_ = true;
 
+    // Get the initial start time to calculate fps.
+    start_time_ = std::chrono::system_clock::now();
+
     delete ipl_img;
 
 }
@@ -394,7 +410,7 @@ void YoloObjectDetector::FormatImage(const cv::Mat& img, int thread_index) {
 
 void YoloObjectDetector::DetectObjects(const cv::Mat& img, detection *&dets, int &nboxes, int thread_index) {
   
-     // Since there is only one net, the net must only be accessed by 
+    // Since there is only one net, the net must only be accessed by 
     // one thread at a time. 
 
     // Get predictions
@@ -432,8 +448,6 @@ void YoloObjectDetector::DrawDetections(detection *dets, int nboxes, int thread_
 
     // Convert from IplImage to cv::Mat
     img_threads_[thread_index].draw_img = cv::cvarrToMat(ipls_[thread_index]);
-    // img_threads_[thread_index].draw_img = cv::Mat(ipls_[thread_index]);
-
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
