@@ -107,7 +107,8 @@ The user only needs to be aware of a few function found in YoloObjectDetector:
   void SetDynamicParams(const common::DynamicParams& params);
 ```
 
-You can look at the Doxygen generated documentation to have a better view of it. 
+You can look at the Doxygen generated documentation to have a better view of it. To see an example 
+of using this API, see the tests or the project [darknet_ros](https://magiccvs.byu.edu/gitlab/darknet/darknet_ros).
 
 ## Parameters
 
