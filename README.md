@@ -120,3 +120,15 @@ The static and dynamic parameters need to be specified before runtime. An exampl
 The difference between static and dynamic is the dynamic parameters can be changed during runtime using the method YoloObjectDetector::SetDynamicParams. This method is thread safe. When you 
 call this function and pass in the dynamic parameters, you must initialize ever member variabl of common::DynamicParams or unexpected things might happen. I have tried to put in safety 
 measures to guard against this, but just be cautious. 
+
+## Testing
+
+If you are a developer and make changes, you can test your changes using the created test files. There are 
+curently two tests: a parameter test and a detection test. To build the test files set the cmake flag ```-DBUILD_TESTS=ON``` and run make. 
+then run the test.
+```
+./test/parameters_test
+./test/detection_test
+```
+
+The detection test will show the image containing the drawn images to be inspected.
