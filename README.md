@@ -16,7 +16,7 @@ There are a few things the user needs to be aware of
 The Darknet Wrapper builds as a library, and currently there is not installation method. It is suggested that you add it as a submodule into your current project and add
 it as a subdirectory into your CMakeList.txt. You will also need to include its directories and link the library. An example is shown below.
 
-``` CMakeList.txt
+``` cmake
 
 add_subdirectory(darknet_wrapper)
 
@@ -26,20 +26,97 @@ include
 darknet_wrapper/include
 darknet_wrapper/darknet/include
 darknet_wrapper/darknet/src
+...
 
 )
 
 target_link_libraries(target
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBRARIES}
   darknet_wrapper
+  ...
 )
 
 ```
 
-For a mull example you can look at the CMakeList.txt file in [darknet_ros](https://magiccvs.byu.edu/gitlab/darknet/darknet_ros/blob/master/CMakeLists.txt)
+For a full example you can look at the CMakeList.txt file in [darknet_ros](https://magiccvs.byu.edu/gitlab/darknet/darknet_ros/blob/master/CMakeLists.txt)
+
+## Documentation
+
+Darknet Wrapper is documented using Doxygen syntax. You can view the documentation
+1. Cloning the repository.
+2. Navigate to the root directory.
+3. Run ``` doxygen Doxyfile ``` in the terminal. This will create an html directory containing the documentation.
+4. Create a session using your favorite web browser. e.g., ```google-chrome html/index.html```
 
 ## API
 
-The user only needs to be aware of a few function found in YoloObjectDetector
+The user only needs to be aware of a few function found in YoloObjectDetector:
 
+``` c++
+
+ /**
+  * \detail Loads all of the labels, parameters, weights, sets up
+  *         the YOLO network, and starts the ThreadScheduler.
+  * @param labels_filename The absolute path to the labels file.
+  * @param params_filename The absolute path to the parameters file.
+  * @param config_filename The absolute path to the configure file.
+  * @param weights_filename The absolute path to the weights file.
+  */
+  YoloObjectDetector(
+    std::string labels_filename, 
+    std::string params_filename,
+    std::string config_filename,
+    std::string weights_filename);
+
+  /**
+  * \detail Stops all of the threads running, and
+  *         frees all of the dynamically allocated memory.
+  */
+  ~YoloObjectDetector();
+
+  
+  /**
+  * \detail Users will call this function to pass the images
+  *         they want to be processed to YOLO. The image will be cloned.
+  *         All images passed in must be the same size. 
+  * @param img The user's passed in image.
+  * @param seq Unique identifier for the image. Usually is the image's sequence.
+  */
+  void ImageCallback(const cv::Mat& img, int seq);
+
+  /**
+  * \detail Users will pass in a callback function to this method. Once
+  *         an image is done being processed, the users supplied callback
+  *         function will be called and be passed an image with the bounding boxes
+  *         drawn if common::DynamicParams::draw_detections is set, passed 
+  *         an object of common::BoundingBoxes, and the image's sequence number.
+  *         Note that currently passed image is a reference to the data and 
+  *         will be overwritten in the in the future.
+  * @param pt2func Pointer to the callback function
+  * @see common::BoundingBoxes
+  * @see common::DynamicParams 
+  */
+  template<class T>
+  void Subscriber(void (T::*pt2func)(const cv::Mat&, const common::BoundingBoxes&, const int&), T* object);
+
+  /**
+  * \detail The dynamic parameters specified by common::DynamicParams
+  *         can be changed during runtime. When you pass in the parameters
+  *         ensure that all of them are set. This method is thread safe.
+  * @see common::DynamicParams
+  */
+  void SetDynamicParams(const common::DynamicParams& params);
+```
+
+You can look at the Doxygen generated documentation to have a better view of it. 
+
+## Parameters
+
+There are many types of parameters: network parameters, static parameters, and dynamic parameters. The network parameters
+are used directly by the YOLO net and comprise label file, weights file, and cfg file. These files are stored in the sub directory
+yolo\_network\_config. There are already some label and configuration files ready to use, but you will have to download the weights you want to use. 
+You can download these weights from [Darknet](https://pjreddie.com/darknet/yolo/). 
+
+The static and dynamic parameters need to be specified before runtime. An example file of these parameters is in params/default.yaml. This file is loaded using the library yaml-cpp. 
+The difference between static and dynamic is the dynamic parameters can be changed during runtime using the method YoloObjectDetector::SetDynamicParams. This method is thread safe. When you 
+call this function and pass in the dynamic parameters, you must initialize ever member variabl of common::DynamicParams or unexpected things might happen. I have tried to put in safety 
+measures to guard against this, but just be cautious. 
