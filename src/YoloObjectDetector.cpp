@@ -8,28 +8,17 @@ const std::string kDarknetFilePath_ = DARKNET_FILE_PATH;
 
 namespace darknet_wrapper {
 
+YoloObjectDetector::YoloObjectDetector() {}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
 YoloObjectDetector::YoloObjectDetector(
     std::string labels_filename, 
     std::string params_filename,
     std::string config_filename,
     std::string weights_filename) {
 
-    config_file_path_ = new char[config_filename.length() + 1];
-    weights_file_path_ = new char[weights_filename.length() + 1];
-    strcpy(config_file_path_, config_filename.c_str());
-    strcpy(weights_file_path_, weights_filename.c_str());
-
-    if (InitParameters(labels_filename, params_filename))
-    {
-        InitThreadQueue();
-
-        // Load network.
-        InitNetwork();
-
-        // Start the thread scheduler
-        scheduler_thread_ = std::thread(&YoloObjectDetector::ThreadScheduler,this);
-
-    }
+  Initialize(labels_filename,params_filename,config_filename,weights_filename);
 
 }
 
@@ -136,6 +125,34 @@ YoloObjectDetector::~YoloObjectDetector() {
 //     if (net_->output)    free(net_->output);
 
 
+}
+
+void YoloObjectDetector::Initialize(
+    std::string labels_filename, 
+    std::string params_filename,
+    std::string config_filename,
+    std::string weights_filename)
+{
+  if (!is_initialized_)
+  {
+    config_file_path_ = new char[config_filename.length() + 1];
+    weights_file_path_ = new char[weights_filename.length() + 1];
+    strcpy(config_file_path_, config_filename.c_str());
+    strcpy(weights_file_path_, weights_filename.c_str());
+
+    if (InitParameters(labels_filename, params_filename))
+    {
+        InitThreadQueue();
+
+        // Load network.
+        InitNetwork();
+
+        // Start the thread scheduler
+        scheduler_thread_ = std::thread(&YoloObjectDetector::ThreadScheduler,this);
+
+    }
+  }
+  is_initialized_ = true;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------

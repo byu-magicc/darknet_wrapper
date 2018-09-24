@@ -96,8 +96,21 @@ class YoloObjectDetector
 public:
 
   /**
-  * \detail Loads all of the labels, parameters, weights, sets up
-  *         the YOLO network, and starts the ThreadScheduler.
+  * \detail Constructor used to declare the object, but will not
+  * initialize anything. This can be useful when you use it
+  * in a class that cant initialize YoloObjectDetector when it is 
+  * initialized.
+  * @param labels_filename The absolute path to the labels file.
+  * @param params_filename The absolute path to the parameters file.
+  * @param config_filename The absolute path to the configure file.
+  * @param weights_filename The absolute path to the weights file.
+  */
+ YoloObjectDetector();
+
+
+  /**
+  * \detail Calls Initialize to Load all of the labels, parameters,
+  * weights. Sets up the YOLO network, and starts the ThreadShceduler.
   * @param labels_filename The absolute path to the labels file.
   * @param params_filename The absolute path to the parameters file.
   * @param config_filename The absolute path to the configure file.
@@ -115,6 +128,20 @@ public:
   */
   ~YoloObjectDetector();
 
+
+  /**
+  * \detail Loads all of the labels, parameters, weights, sets up
+  *         the YOLO network, and starts the ThreadScheduler.
+  * @param labels_filename The absolute path to the labels file.
+  * @param params_filename The absolute path to the parameters file.
+  * @param config_filename The absolute path to the configure file.
+  * @param weights_filename The absolute path to the weights file.
+  */
+  void Initialize(
+    std::string labels_filename, 
+    std::string params_filename,
+    std::string config_filename,
+    std::string weights_filename);
   
   /**
   * \detail Users will call this function to pass the images
@@ -426,6 +453,9 @@ protected:
   bool frames_init_ = false; /**< Flag to indicate if darknet_imgs_, darknet_letters_, and ipl_ 
                                   have been allocated. */ 
   int frame_count_ = 0;      /**< Counts the number of frames skipped. */
+
+  bool is_initialized_ = false; /**< Indicates if YOLO has been initialized to
+                                     prevent it from being initialized twixe. */
 
 };
 
