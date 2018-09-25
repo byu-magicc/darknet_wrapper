@@ -135,6 +135,8 @@ void YoloObjectDetector::Initialize(
 {
   if (!is_initialized_)
   {
+
+    std::cout << "yolo init" << std::endl;
     config_file_path_ = new char[config_filename.length() + 1];
     weights_file_path_ = new char[weights_filename.length() + 1];
     strcpy(config_file_path_, config_filename.c_str());
@@ -142,17 +144,29 @@ void YoloObjectDetector::Initialize(
 
     if (InitParameters(labels_filename, params_filename))
     {
+
+        std::cout << "yolo params init" << std::endl;
         InitThreadQueue();
 
+        std::cout << "init thread queue" << std::endl;
         // Load network.
-        InitNetwork();
+        if(InitNetwork())
+        {
 
-        // Start the thread scheduler
-        scheduler_thread_ = std::thread(&YoloObjectDetector::ThreadScheduler,this);
+            std::cout << " network init" << std::endl;
+
+            // Start the thread scheduler
+            scheduler_thread_ = std::thread(&YoloObjectDetector::ThreadScheduler,this);
+
+        }
 
     }
+
+    std::cout << "done init" << std::endl;
+
+    is_initialized_ = true;
   }
-  is_initialized_ = true;
+  
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -242,20 +256,50 @@ bool YoloObjectDetector::InitParameters(std::string labels_filename, std::string
 
 //-------------------------------------------------------------------------------------------------------------------------
 
-void YoloObjectDetector::InitNetwork() {
+bool YoloObjectDetector::InitNetwork() {
   
-    // Load pictures of the alphabet. This is used to draw letters
-    // onto the image.
-    alphabet_ = load_alphabet_with_file(data_file_path_);
+    // see if file exists
+    std::ifstream weight_file(weights_file_path_);
+    std::ifstream config_file(config_file_path_);
 
-    // Load the weights and configuration file to create the
-    // network
-    net_ = load_network(config_file_path_, weights_file_path_, 0);
-    set_batch_network(net_, 1);
+    bool file_exists = false;
 
-    // Dimensions of net
-    net_width_ = net_->w;
-    net_height_ = net_->h;
+    if ((bool)(weight_file) && (bool)(config_file) )
+    {
+
+        std::cout << "file exists" << std::endl;
+
+        // Load pictures of the alphabet. This is used to draw letters
+        // onto the image.
+        alphabet_ = load_alphabet_with_file(data_file_path_);
+
+        std::cout << "alphabet loaded" << std::endl;
+        std::cout << "weight file path:" <<weights_file_path_ <<std::endl;
+        std::cout << "config file path:" << config_file_path_<<std::endl;
+
+        // Load the weights and configuration file to create the
+        // network
+        net_ = load_network(config_file_path_, weights_file_path_, 0);
+
+        std::cout << "network loaded" << std::endl;
+
+        set_batch_network(net_, 1);
+
+        // Dimensions of net
+        net_width_ = net_->w;
+        net_height_ = net_->h;
+        file_exists = true;
+    }
+    else
+    {
+        if (!(bool)(weight_file))
+            std::cout << "ERROR DarknetWrapper: weights file does not exist: " << weights_file_path_ << std::endl;
+        if(!(bool)(config_file))
+            std::cout << "ERROR DarknetWrapper: config file does not exist: " << config_file_path_ << std::endl;
+
+    }
+
+    return file_exists;
 
 }
 

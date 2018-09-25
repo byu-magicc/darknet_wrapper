@@ -9,6 +9,7 @@
 #include <chrono>
 #include <functional>
 #include <stdlib.h>
+#include <fstream>
 
 // Boost
 #include <boost/thread.hpp>
@@ -197,7 +198,7 @@ protected:
   *         loads images of the alphabet to draw classification labels onto the 
   *         image.
   */
-  void InitNetwork();
+  bool InitNetwork();
 
   /**
   * \detail Darknet needs the images to be formated a certain way
