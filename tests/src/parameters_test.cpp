@@ -8,7 +8,7 @@ const std::string kTestsDirPath = WRAPPER_FILE_PATH;
 	std::string labels_filename = kTestsDirPath + "/yolo_network_config/labels/yolov3-tiny.yaml";
 	std::string config_filename = kTestsDirPath + "/yolo_network_config/cfg/yolov3-tiny.cfg";
 	std::string weights_filename = kTestsDirPath + "/yolo_network_config/weights/yolov3-tiny.weights";
-	std::string params_filename = kTestsDirPath + "/tests/params/test_params.yaml";
+	std::string params_filename = kTestsDirPath + "/tests/param/test_params.yaml";
 
 #else
 #error Path of WRAPPER_FILE_PATH repository is not defined in CMakeLists.txt.

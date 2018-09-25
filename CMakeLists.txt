@@ -139,42 +139,6 @@ endif()
 target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 
 
-# set(INSTALL_LIB_DIR     lib                      CACHE PATH "Installation directory for libraries")
-# set(INSTALL_BIN_DIR     bin                      CACHE PATH "Installation directory for executables")
-# set(INSTALL_INCLUDE_DIR include                  CACHE PATH "Installation directory for header files")
-# set(INSTALL_CMAKE_DIR   lib/cmake/darknet_wrapper   CACHE PATH "Installation directory for CMake Config files")
-
-
-# target_include_directories(${PROJECT_NAME} PUBLIC 
-#               "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#               "$<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>")
-
-# Let other projects see this project
-# add targets to an export group
-# install(TARGETS ${PROJECT_NAME}
-#         EXPORT ${PROJECT_NAME}-export
-#         LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/libs
-#         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-# export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_NAME}-exports.cmake)
-# export(PACKAGE ${PROJECT_NAME} )
-# message(STATUS "current source dir ${CMAKE_CURRENT_SOURCE_DIR}")
-
-# set(darknet_wrapper_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
-
-
-# message(STATUS "Install lib dir ${INSTALL_LIB_DIR}")
-
-# install(TARGETS ${PROJECT_NAME}
-#     EXPORT  ${PROJECT_NAME}
-#     RUNTIME DESTINATION "${INSTALL_LIB_DIR}" # neccessary for WIN32
-#     LIBRARY DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/lib")
-
-# Actually place the `find_package` instructions on the user's system
-# install(EXPORT ${PROJECT_NAME} DESTINATION "${INSTALL_CMAKE_DIR}")
-
-# export(EXPORT ${PROJECT_NAME} FILE ${PROJECT_NAME}-config.cmake)
-
-# install(EXPORT my_library DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 
 ##################################
 #  Unit Testing with GoogleTest  #
@@ -182,16 +146,21 @@ target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 
 
 option(BUILD_TESTS "Build the darknet_wrapper GTests" OFF)
-# message(STATUS "current source ${CMAKE_CURRENT_SOURCE_DIR}")
-# find_path(WRAPPER_FILE_PATH
-#     HINTS "${CMAKE_CURRENT_SOURCE_DIR}/../darknet_wrapper")
-add_definitions( -DWRAPPER_FILE_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
-# set(WRAPPER_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 if(BUILD_TESTS)
-message(STATUS "HERE")
+  add_definitions( -DWRAPPER_FILE_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
   add_subdirectory(tests)
 endif()
 
+##################################
+#  Benchmarking                  #
+##################################
+option(BUILD_BENCHMARKS "Build the darknet_wrapper Benchmarks" OFF)
 
+if(BUILD_BENCHMARKS)
+  add_definitions( -DWRAPPER_FILE_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
+
+
+  add_subdirectory(benchmark)
+endif()
