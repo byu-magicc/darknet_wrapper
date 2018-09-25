@@ -140,3 +140,16 @@ then run the test.
 ```
 
 The detection test will show the image containing the drawn images to be inspected.
+
+## Benchmarking
+
+If you are a developer and make changes, you can benchmark your changes using the created benchmark files. There are 
+curently one benchmark that only measures utilization. To build the benchmark files set the cmake flag ```-DBUILD_BENCHMARKS=ON``` and run make. 
+then run the benchmark.
+```
+./benchmark/benchmark
+```
+
+There are two parameters you can adjust in the bench mark file
+* **run_time_**: How long to run the benchmark for
+* **sleep_time_**: The duration between sending images to YOLO. 
