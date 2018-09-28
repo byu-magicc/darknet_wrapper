@@ -104,9 +104,17 @@ set (LINK_LIBS
     ${YAML_CPP_LIBRARIES}
 )
 
+
 if (CUDA_FOUND)
 
-    link_directories( /usr/local/cuda/lib64 )
+find_library(cudart_LIBRARY cudart HINTS /usr/local/cuda/lib64)
+find_library(cublas_LIBRARY cublas HINTS /usr/local/cuda/lib64)
+find_library(curand_LIBRARY curand HINTS /usr/local/cuda/lib64)
+
+# message(STATUS "cudart library: ${cudart_LIBRARY}")
+# message(STATUS "cublas library: ${cublas_LIBRARY}")
+# message(STATUS "curand library: ${curand_LIBRARY}")
+
 
     set (SRCS 
         ${SRCS}
@@ -118,13 +126,14 @@ if (CUDA_FOUND)
     )
 
     cuda_add_library(${PROJECT_NAME} SHARED ${SRCS} )
+    target_include_directories(${PROJECT_NAME} PUBLIC /usr/local/cuda/lib64)
 
     set (LINK_LIBS
         ${LINK_LIBS}
         cuda
-        cudart
-        cublas
-        curand)
+        ${cudart_LIBRARY}
+        ${cublas_LIBRARY}
+        ${curand_LIBRARY})
 
 
 else()
