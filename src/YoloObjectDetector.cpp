@@ -278,9 +278,9 @@ bool YoloObjectDetector::InitNetwork() {
     else
     {
         if (!(bool)(weight_file))
-            std::cout << "ERROR DarknetWrapper: weights file does not exist: " << weights_file_path_ << std::endl;
+            std::cout << PRINT_RED << "ERROR DarknetWrapper: weights file does not exist: " << weights_file_path_ << PRINT_RESET << std::endl;
         if(!(bool)(config_file))
-            std::cout << "ERROR DarknetWrapper: config file does not exist: " << config_file_path_ << std::endl;
+            std::cout << PRINT_RED << "ERROR DarknetWrapper: config file does not exist: " << config_file_path_ << PRINT_RESET << std::endl;
 
     }
 
@@ -763,7 +763,7 @@ return (bool)ifile;
 
 //-------------------------------------------------------------------------------------------------------------------------
 
-bool AllFilesExist(
+bool YoloObjectDetector::AllFilesExist(
     std::string labels_filename, 
     std::string params_filename,
     std::string config_filename,
@@ -775,26 +775,28 @@ bool AllFilesExist(
         if(!FileExists(labels_filename))
         {
             all_files_exist = false;
-            std::cout << "WARNING DARKNET YOLO: Labels filename doesn't exist: " << labels_filename << std::endl;
+            std::cout << PRINT_YELLOW << "WARNING DARKNET YOLO: Labels filename doesn't exist: " << labels_filename << PRINT_RESET << std::endl;
         }
 
-        if(!FileExists(labels_filename))
+        if(!FileExists(params_filename))
         {
             all_files_exist = false;
-            std::cout << "WARNING DARKNET YOLO: Params filename doesn't exist: " << params_filename << std::endl;
+            std::cout << PRINT_YELLOW << "WARNING DARKNET YOLO: Params filename doesn't exist: " << params_filename << PRINT_RESET << std::endl;
         }
 
-        if(!FileExists(labels_filename))
+        if(!FileExists(config_filename))
         {
             all_files_exist = false;
-            std::cout << "WARNING DARKNET YOLO: Config filename doesn't exist: " << config_filename << std::endl;
+            std::cout << PRINT_YELLOW << "WARNING DARKNET YOLO: Config filename doesn't exist: " << config_filename << PRINT_RESET << std::endl;
         }
 
-        if(!FileExists(labels_filename))
+        if(!FileExists(weights_filename))
         {
             all_files_exist = false;
-            std::cout << "WARNING DARKNET YOLO: Weights filename doesn't exist: " << weights_filename << std::endl;
+            std::cout << PRINT_YELLOW << "WARNING DARKNET YOLO: Weights filename doesn't exist: " << weights_filename << PRINT_RESET << std::endl;
         }
+
+        return all_files_exist;
     }
 
 } /* namespace darknet_wrapper*/

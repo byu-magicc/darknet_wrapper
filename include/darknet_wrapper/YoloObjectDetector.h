@@ -46,6 +46,13 @@ extern "C" void ipl_into_image(IplImage* src, image im);
 extern "C" image ipl_to_image(IplImage* src);
 extern "C" void show_image_cv(image p, const char *name, IplImage *disp);
 
+
+//Print colors
+#define PRINT_RED "\033[1;31m"
+#define PRINT_GREEN "\033[1;32m"
+#define PRINT_YELLOW "\033[1;33m"
+#define PRINT_RESET "\033[0m"
+
 namespace darknet_wrapper {
 
 
