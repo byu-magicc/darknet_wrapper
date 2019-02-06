@@ -148,7 +148,6 @@ endif()
 target_link_libraries(${PROJECT_NAME} ${LINK_LIBS})
 
 
-
 ##################################
 #  Unit Testing with GoogleTest  #
 ##################################

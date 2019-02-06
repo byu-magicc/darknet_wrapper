@@ -401,6 +401,21 @@ protected:
   */
   float GetFps();
 
+
+  /**
+  * \brief Returns true if the file exists.
+  */
+  bool FileExists(const std::string& filename);
+
+  /**
+  * \brief Returns true if all of the file exists. Else, it will indicate which file doesn't exist.
+  */
+  bool AllFilesExist(
+    std::string labels_filename, 
+    std::string params_filename,
+    std::string config_filename,
+    std::string weights_filename);
+
   
   bool is_program_running_ = true;           /**< Indicates if the program should still be runnins. @see IsProgramRunning*/
   boost::shared_mutex mutex_node_running_;

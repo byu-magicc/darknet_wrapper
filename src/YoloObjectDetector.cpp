@@ -133,7 +133,7 @@ void YoloObjectDetector::Initialize(
     std::string config_filename,
     std::string weights_filename)
 {
-  if (!is_initialized_)
+  if (!is_initialized_ && AllFilesExist(labels_filename,params_filename,config_filename,weights_filename))
   {
 
     config_file_path_ = new char[config_filename.length() + 1];
@@ -180,7 +180,7 @@ bool YoloObjectDetector::InitParameters(std::string labels_filename, std::string
 
     bool parameters_initialized = false;
 
-    // Load parameters
+    // If the parameters exist. Load them
     if (params_.Initialize(params_filename) &&  cl_params_.Initialize(labels_filename))
     {
 
@@ -753,5 +753,48 @@ float YoloObjectDetector::GetFps() {
     std::chrono::duration<float> elapsed_seconds = std::chrono::system_clock::now() - start_time_;
     return num_frames_processed_/elapsed_seconds.count();
 }
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+bool YoloObjectDetector::FileExists(const std::string& filename) {
+std::ifstream ifile(filename.c_str());
+return (bool)ifile;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------
+
+bool AllFilesExist(
+    std::string labels_filename, 
+    std::string params_filename,
+    std::string config_filename,
+    std::string weights_filename)
+    {
+
+        bool all_files_exist = true;
+
+        if(!FileExists(labels_filename))
+        {
+            all_files_exist = false;
+            std::cout << "WARNING DARKNET YOLO: Labels filename doesn't exist: " << labels_filename << std::endl;
+        }
+
+        if(!FileExists(labels_filename))
+        {
+            all_files_exist = false;
+            std::cout << "WARNING DARKNET YOLO: Params filename doesn't exist: " << params_filename << std::endl;
+        }
+
+        if(!FileExists(labels_filename))
+        {
+            all_files_exist = false;
+            std::cout << "WARNING DARKNET YOLO: Config filename doesn't exist: " << config_filename << std::endl;
+        }
+
+        if(!FileExists(labels_filename))
+        {
+            all_files_exist = false;
+            std::cout << "WARNING DARKNET YOLO: Weights filename doesn't exist: " << weights_filename << std::endl;
+        }
+    }
 
 } /* namespace darknet_wrapper*/
